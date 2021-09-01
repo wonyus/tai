@@ -5,7 +5,7 @@ public class Purse {
     private static int one = 0;
     private static int five = 0;
     private static int ten = 0;
-    private static Coin[] coins = new Coin[capacity];
+    private static ArrayList<Coin> coins = new ArrayList<Coin>();
 
     public Purse(int capacity) {
         this.capacity = capacity;
@@ -32,29 +32,22 @@ public class Purse {
     }
 
     public static Boolean insert(Coin amount) {
-        int counter = 0;
-        
-        
-        for (Coin rhean : coins) {
-            System.out.println(amount.getValue());
-            if (rhean == null && isFull() == false) {
-                if (amount.getValue() == 1) {
-                    coins[counter] = amount;
-                    one += 1;
-                    return true;
-                } else if (amount.getValue() == 5) {
-                    
-                    coins[counter] = amount;
-                    five += 1;
-                    return true;
-                } else if (amount.getValue() == 10) {
-                    coins[counter] = amount;
-                    ten += 1;
-                    return true;
-                }
+
+        if (isFull() == false) {
+            if (amount.getValue() == 1) {
+                coins.add(amount);
+                one += 1;
+                return true;
+            } else if (amount.getValue() == 5) {
+                coins.add(amount);
+                five += 1;
+                return true;
+            } else if (amount.getValue() == 10) {
+                coins.add(amount);
+                ten += 1;
+                return true;
             }
 
-            counter += 1;
         }
         return false;
 
@@ -64,11 +57,11 @@ public class Purse {
         int counter = 0;
         String[] arrwithdraw = {};
 
-        /* check amount before next step to calculate*/ 
+        /* check amount before next step to calculate */
 
         if (amount > getbalance()) {
             return null;
-        }else if ( amount % 5 < one){
+        } else if (amount % 5 < one) {
             return null;
         }
         /* calculate withdraw */
@@ -93,12 +86,12 @@ public class Purse {
         /* format toString for withdraw output */
 
         String withdrawtostring = "";
-        
-        for (String temp : arrwithdraw){
+
+        for (String temp : arrwithdraw) {
             withdrawtostring += temp + " ";
         }
         String temp1 = withdrawtostring.join(" ", ",");
-        withdrawtostring = "[" + temp1.substring(0, temp1.length()-1) + "]";
+        withdrawtostring = "[" + temp1.substring(0, temp1.length() - 1) + "]";
         return withdrawtostring;
     }
 
