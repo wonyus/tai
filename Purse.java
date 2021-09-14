@@ -7,22 +7,27 @@ public class Purse {
     private static int ten = 0;
     private static ArrayList<Coin> coins = new ArrayList<Coin>();
 
+    // set size purse
     public Purse(int capacity) {
         this.capacity = capacity;
     }
 
+    // return count of coins
     public static int count() {
         return (one + five + ten);
     }
 
+    // return balance in purse
     public static int getbalance() {
         return ((one * 1) + (five * 5) + (ten * 10));
     }
 
+    // return capacity of purse
     public static int getCapacity() {
         return capacity;
     }
 
+    // check free size in purse
     public static Boolean isFull() {
         if (one + five + ten == capacity) {
             return true;
@@ -31,6 +36,7 @@ public class Purse {
         }
     }
 
+    // insert coin function
     public static Boolean insert(Coin amount) {
 
         if (isFull() == false) {
@@ -53,48 +59,58 @@ public class Purse {
 
     }
 
+    // withdraw function
     public static String withdraw(int amount) {
-        int counter = 0;
-        String[] arrwithdraw = {};
+        ArrayList<String> arrwithdraw = new ArrayList<String>();
 
         /* check amount before next step to calculate */
 
         if (amount > getbalance()) {
             return null;
-        } else if (amount % 5 < one) {
+        } else if (amount % 5 > one) {
             return null;
         }
-        /* calculate withdraw */
 
-        while (amount >= 0) {
+        // algorithm use withdraw
+        while (amount > 0) {
+
+            /* calculate withdraw */
             if (ten > 0 && amount >= 10) {
-                arrwithdraw[counter] = "Coin(10)";
+                search_remove(10);
+                arrwithdraw.add("Coin(10)");
                 ten -= 1;
                 amount -= 10;
             } else if (five > 0 && amount >= 5) {
-                arrwithdraw[counter] = "Coin(5)";
+                search_remove(5);
+                arrwithdraw.add("Coin(5)");
                 five -= 1;
                 amount -= 5;
             } else if (one > 0 && amount >= 1) {
-                arrwithdraw[counter] = "Coin(1)";
+                search_remove(1);
+                arrwithdraw.add("Coin(1)");
                 one -= 1;
                 amount -= 1;
             }
-            counter += 1;
+
         }
 
-        /* format toString for withdraw output */
-
-        String withdrawtostring = "";
-
-        for (String temp : arrwithdraw) {
-            withdrawtostring += temp + " ";
-        }
-        String temp1 = withdrawtostring.join(" ", ",");
-        withdrawtostring = "[" + temp1.substring(0, temp1.length() - 1) + "]";
-        return withdrawtostring;
+        return arrwithdraw.toString() + "\n";
     }
 
+    // remove coin in array coins
+    public static void search_remove(int number) {
+        int counter = 0;
+        for (Coin temp : coins) {
+            if (number == temp.getValue()) {
+                coins.remove(counter);
+                counter = 0;
+                break;
+            }
+            counter++;
+        }
+    }
+
+    // return string for request
     public String toString() {
         return one + " 1-Baht, " + five + " 5-Baht, " + ten + " 10-Baht";
     }
